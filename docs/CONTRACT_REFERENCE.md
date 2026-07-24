@@ -2423,6 +2423,10 @@ pub struct ContactRecord {
 }
 ```
 
+> **Note:** `ContactRecord` represents a **single contact event** — one `(player_id, scout)` pair at a specific timestamp. It is created when a scout calls `pay_to_contact` (Basic/Pro/Elite) or when an Elite scout logs a trial offer via `log_trial_offer`. Each contact is a discrete record.
+>
+> **Contrast with `ProContactPeriod`:** `ProContactPeriod` (defined below) is a **period-windowed counter** used for Pro-tier subscription quota enforcement. It tracks `count` of contacts within a rolling `period_start` window (monthly by config). `ProContactPeriod` is **not** a per-contact record — it's an aggregate used to enforce `pro_contact_limit` (default 10/month). Do not confuse the two: `ContactRecord` = individual contact history; `ProContactPeriod` = quota accounting window.
+
 ### `FeeConfig`
 
 ```rust
